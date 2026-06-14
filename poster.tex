@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage[a0paper,landscape,margin=0pt]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usetikzlibrary{calc}
+\pagestyle{empty}
+
+\newcommand{\placePDF}[5]{%
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=#5] at ($(current page.south west) + (#2/100*\paperwidth, #3/100*\paperheight)$) {
+\includegraphics[scale=#4]{#1}
+        };
+\end{tikzpicture}%
+}
+
+\begin{document}
+    \begin{tikzpicture}[remember picture, overlay]
+        \placePDF{standalones/semantic_latent_space/semantic_latent_space.pdf}{50}{50}{3}{center}
+        \placePDF{standalones/latent_space/latent_space.pdf}{20}{80}{2}{center}
+        \placePDF{standalones/clustering_agent_representation/clustering_agent_representation.pdf}{20}{50}{3}{center}
+        \placePDF{standalones/clustering_universality/clustering_universality.pdf}{20}{10}{2}{center}
+        \placePDF{standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{80}{80}{2}{center}
+        \placePDF{standalones/semantic_granularity/semantic_granularity.pdf}{80}{20}{2}{center}
+    \end{tikzpicture}
+\end{document}
