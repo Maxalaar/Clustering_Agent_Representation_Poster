@@ -5,6 +5,8 @@
 \usepackage{xcolor}
 \usetikzlibrary{calc}
 \pagestyle{empty}
+
+% Place un PDF à la position (x%, y%) sur la page
 \newcommand{\placePDF}[5]{%
 \begin{tikzpicture}[remember picture, overlay]
 \node[anchor=#5] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$) {
@@ -12,13 +14,59 @@
         };
 \end{tikzpicture}%
 }
-\begin{document}
+
+% Bulle avec titre, auteurs et organisation
+% #1 = x (%) depuis le bord gauche
+% #2 = y (%) depuis le bord bas
+% #3 = scale
+% #4 = taille de base du texte — titre = #4*1.7, auteurs = #4, organisation = #4*0.85
+% #5 = Titre du poster
+% #6 = Auteur 1
+% #7 = Auteur 2
+% #8 = Auteur 3
+% #9 = Organisation
+\newcommand{\posterBubble}[9]{%
+\pgfmathsetmacro{\sizetitle}{#4 * 1.7}%
+\pgfmathsetmacro{\sizeorg}{#4 * 0.85}%
 \begin{tikzpicture}[remember picture, overlay]
-\placePDF{50}{50}{standalones/semantic_latent_space/semantic_latent_space.pdf}{3}{center}
-\placePDF{22}{75}{standalones/clustering_agent_representation/clustering_agent_representation.pdf}{3}{center}
-\placePDF{15}{40}{standalones/clustering_universality/clustering_universality.pdf}{1.75}{center}
-\placePDF{25}{15}{standalones/latent_space/latent_space.pdf}{2.5}{center}
-\placePDF{80}{70}{standalones/semantic_granularity/semantic_granularity.pdf}{2.5}{center}
-\placePDF{75}{15}{standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{3.5}{center}
+  \node[
+    anchor=center,
+    draw=black,
+    line width=4pt,
+    rounded corners=30pt,
+    fill=white,
+    text=black,
+    inner sep=25pt,
+    align=center,
+    scale=#3,
+  ] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$)
+  {
+    \scalebox{\sizetitle}{\textbf{#5}}\\[1cm]
+    \scalebox{#4}{#6 \quad\textbullet\quad #7 \quad\textbullet\quad #8}\\[1cm]
+    \scalebox{\sizeorg}{\textit{#9}}
+  };
+\end{tikzpicture}%
+}
+
+\begin{document}
+
+\posterBubble
+  {50}{92}
+  {1.5}
+  {3}
+  {Clustering agent representation for explaining reinforcement learning policies}
+  {Maxime Alaarabiou}
+  {Nicolas Delestre}
+  {Laurent Vercouter}
+  {INSA Rouen Normandie, Normandie Univ, LITIS UR 4108, F-76000, 684 Av. de l'Université, 76800 Saint-Étienne-du-Rouvray, France}
+
+\begin{tikzpicture}[remember picture, overlay]
+\placePDF{50}{55}{standalones/semantic_latent_space/semantic_latent_space.pdf}{3}{center}
+\placePDF{15}{70}{standalones/latent_space/latent_space.pdf}{2}{center}
+\placePDF{15}{40}{standalones/clustering_agent_representation/clustering_agent_representation.pdf}{2}{center}
+\placePDF{85}{70}{standalones/clustering_universality/clustering_universality.pdf}{1.5}{center}
+\placePDF{85}{40}{standalones/semantic_granularity/semantic_granularity.pdf}{2.25}{center}
+\placePDF{50}{22}{standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{2.5}{center}
 \end{tikzpicture}
+
 \end{document}
