@@ -5,22 +5,20 @@
 \usepackage{xcolor}
 \usetikzlibrary{calc}
 \pagestyle{empty}
-
 \newcommand{\placePDF}[5]{%
 \begin{tikzpicture}[remember picture, overlay]
-\node[anchor=#5] at ($(current page.south west) + (#2/100*\paperwidth, #3/100*\paperheight)$) {
-\includegraphics[scale=#4]{#1}
+\node[anchor=#5] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$) {
+\includegraphics[scale=#4]{#3}
         };
 \end{tikzpicture}%
 }
-
 \begin{document}
-    \begin{tikzpicture}[remember picture, overlay]
-        \placePDF{standalones/semantic_latent_space/semantic_latent_space.pdf}{50}{50}{3}{center}
-        \placePDF{standalones/latent_space/latent_space.pdf}{20}{80}{2}{center}
-        \placePDF{standalones/clustering_agent_representation/clustering_agent_representation.pdf}{20}{50}{3}{center}
-        \placePDF{standalones/clustering_universality/clustering_universality.pdf}{20}{10}{2}{center}
-        \placePDF{standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{80}{80}{2}{center}
-        \placePDF{standalones/semantic_granularity/semantic_granularity.pdf}{80}{20}{2}{center}
-    \end{tikzpicture}
+\begin{tikzpicture}[remember picture, overlay]
+\placePDF{50}{50}{standalones/semantic_latent_space/semantic_latent_space.pdf}{3}{center}
+\placePDF{22}{75}{standalones/clustering_agent_representation/clustering_agent_representation.pdf}{3}{center}
+\placePDF{15}{40}{standalones/clustering_universality/clustering_universality.pdf}{1.75}{center}
+\placePDF{25}{15}{standalones/latent_space/latent_space.pdf}{2.5}{center}
+\placePDF{80}{70}{standalones/semantic_granularity/semantic_granularity.pdf}{2.5}{center}
+\placePDF{75}{15}{standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{3.5}{center}
+\end{tikzpicture}
 \end{document}
