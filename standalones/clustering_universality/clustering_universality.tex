@@ -1,3 +1,9 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../packages.tex}
+\input{../../setup.tex}
+
+\begin{document}
+
 % --- Macro pour une surrogate policy + son ensemble ---
 \newcommand{\surrogatepolicy}[7]{%
     % #1 : xshift
@@ -31,9 +37,7 @@
     \draw[->, dashed, preaction={draw=white,line width=6pt}] (policy#2) -- ($(box#2.north)+(0,0)$);
 }
 
-\begin{figure}
-    \centering
-    \resizebox{\textwidth}{!}{
+
     \begin{tikzpicture}[
         policybox/.style={
             draw, rectangle, text centered,
@@ -90,11 +94,12 @@
         (-8.5, -5.5) -- (8.5, -5.5);
 
     \node[below=0.75cm] at (0, -6) {
-        \scalebox{1.5}{$\displaystyle
+        {$\displaystyle
         \text{\ClusteringUniversalityName} = \frac{1}{\binom{n}{2}} \sum_{i=1}^{n} \sum_{j=0}^{i-1} \operatorname{\AdjustedRandIndexAcronym}(\mathcal{C}_{i}, \mathcal{C}_{j})
         $}
     };
 
     \end{tikzpicture}
-    }
-\end{figure}
+
+
+\end{document}
