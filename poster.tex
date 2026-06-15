@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{xcolor}
+\usepackage{ragged2e}
 \usetikzlibrary{calc}
 \pagestyle{empty}
 
@@ -24,24 +25,28 @@
 
 % ─────────────────────────────────────────────
 % Place un PDF dans une boîte avec titre et texte
-% #1 = x (%) depuis le bord gauche
-% #2 = y (%) depuis le bord bas
-% #3 = largeur de la boîte (% de \paperwidth)
-% #4 = taille du texte du titre (scalebox)
-% #5 = titre de la boîte
-% #6 = texte entre le titre et la figure
-% #7 = fichier PDF
-% #8 = ancre
+% #1 = x (%)        depuis le bord gauche
+% #2 = y (%)        depuis le bord bas
+% #3 = largeur      de la boîte (% de \paperwidth)
+% #4 = scale titre  (scalebox)
+% #5 = scale texte  (scalebox)
+% #6 = titre de la boîte
+% #7 = texte entre le titre et la figure
+% #8 = fichier PDF
+% #9 = ancre
 % ─────────────────────────────────────────────
 \newlength{\boxwd}
 \newlength{\innerwd}
-\newcommand{\placePDFbox}[8]{%
-  % Calcul via pgfmath qui gère les grands nombres
+\newlength{\textwd}
+\newcommand{\placePDFbox}[9]{%
   \pgfmathsetlength{\boxwd}{#3 * 0.01 * \paperwidth}%
   \pgfmathsetlength{\innerwd}{#3 * 0.009 * \paperwidth}%
+  % La parbox du texte doit être réduite par le facteur scalebox
+  % pour que le résultat final tienne dans \innerwd
+  \pgfmathsetlength{\textwd}{#3 * 0.009 * \paperwidth / #5}%
   \begin{tikzpicture}[remember picture, overlay]
     \node[
-      anchor=#8,
+      anchor=#9,
       draw=black,
       line width=3pt,
       rounded corners=15pt,
@@ -51,9 +56,9 @@
     {%
       \parbox{\boxwd}{%
         \centering
-        \scalebox{#4}{\textbf{#5}}\\[0.4cm]
-        \parbox{\innerwd}{\centering\small #6}\\[0.4cm]
-        \includegraphics[width=\boxwd]{#7}%
+        \scalebox{#4}{\textbf{#6}}\\[0.4cm]
+        \scalebox{#5}{\parbox{\textwd}{\justifying\noindent #7}}\\[0.4cm]
+        \includegraphics[width=\boxwd]{#8}%
       }%
     };
   \end{tikzpicture}%
@@ -107,42 +112,48 @@
   {INSA Rouen Normandie, Normandie Univ, LITIS UR 4108, F-76000,
    684 Av. de l'Université, 76800 Saint-Étienne-du-Rouvray, France}
 
-\placePDFbox{50}{80}{40}{2}{Semantic Latent Space}
+\placePDFbox{50}{80}{40}{2}{2.5}
+  {Semantic Latent Space}
   {The policies resulting from deep learning are represented in the form
    of a neural network. Our objective is to study the neural network's
    latent space in order to extract the semantics used for an
    explainability process.}
   {standalones/semantic_latent_space/semantic_latent_space.pdf}{north}
 
-\placePDFbox{15}{80}{25}{2}{Latent Space}
+\placePDFbox{15}{80}{25}{2}{1.5}
+  {Latent Space}
   {The policies resulting from deep learning are represented in the form
    of a neural network. Our objective is to study the neural network's
    latent space in order to extract the semantics used for an
    explainability process.}
   {standalones/latent_space/latent_space.pdf}{north}
 
-\placePDFbox{15}{55}{25}{2}{Clustering Agent Representation}
+\placePDFbox{15}{55}{25}{2}{1.5}
+  {Clustering Agent Representation}
   {The policies resulting from deep learning are represented in the form
    of a neural network. Our objective is to study the neural network's
    latent space in order to extract the semantics used for an
    explainability process.}
   {standalones/clustering_agent_representation/clustering_agent_representation.pdf}{north}
 
-\placePDFbox{85}{80}{25}{2}{Clustering Universality}
+\placePDFbox{85}{80}{25}{2}{1.5}
+  {Clustering Universality}
   {The policies resulting from deep learning are represented in the form
    of a neural network. Our objective is to study the neural network's
    latent space in order to extract the semantics used for an
    explainability process.}
   {standalones/clustering_universality/clustering_universality.pdf}{north}
 
-\placePDFbox{85}{55}{25}{2}{Evolution Clustering Universality}
+\placePDFbox{85}{55}{25}{2}{1.5}
+  {Evolution Clustering Universality}
   {The policies resulting from deep learning are represented in the form
    of a neural network. Our objective is to study the neural network's
    latent space in order to extract the semantics used for an
    explainability process.}
   {standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{north}
 
-\placePDFbox{85}{35}{25}{2}{Semantic Granularity}
+\placePDFbox{85}{35}{25}{2}{1.5}
+  {Semantic Granularity}
   {The policies resulting from deep learning are represented in the form
    of a neural network. Our objective is to study the neural network's
    latent space in order to extract the semantics used for an
