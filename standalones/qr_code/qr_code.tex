@@ -1,0 +1,19 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../packages.tex}
+\input{../../setup.tex}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+    % ==============================
+    % Paramètre : marge gauche/droite
+    % ==============================
+    \def\sidemargin{5cm}  % <-- Modifier cette valeur
+
+    \node[inner xsep=\sidemargin, inner ysep=0pt] at (0,0) {
+        \includegraphics[height=4cm]{../../pictures/qr_code.png}
+    };
+
+\end{tikzpicture}
+\end{document}
