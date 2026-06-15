@@ -1,0 +1,47 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../packages.tex}
+\input{../../setup.tex}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+    % ==============================
+    % Logos alignés avec hauteur uniforme
+    % ==============================
+    
+    \def\logoheight{1.5cm}
+    \def\logospacing{0.5cm}
+    
+    % Logo 1 - logoCRIANN
+    \node[anchor=center] (logo1) at (0, 0) {
+        \includegraphics[height=\logoheight]{../../pictures/logo/logoCRIANN.pdf}
+    };
+    
+    % Logo 2 - logoINSA
+    \node[anchor=west] (logo2) at ($(logo1.east) + (\logospacing, 0)$) {
+        \includegraphics[height=\logoheight]{../../pictures/logo/logoINSA.png}
+    };
+    
+    % Logo 3 - logoLITIS
+    \node[anchor=west] (logo3) at ($(logo2.east) + (\logospacing, 0)$) {
+        \includegraphics[height=\logoheight]{../../pictures/logo/logoLITIS.png}
+    };
+    
+    % Logo 4 - logoRN
+    \node[anchor=west] (logo4) at ($(logo3.east) + (\logospacing, 0)$) {
+        \includegraphics[height=\logoheight]{../../pictures/logo/logoRN.jpg}
+    };
+    
+    % Logo 5 - logoUN
+    \node[anchor=west] (logo5) at ($(logo4.east) + (\logospacing, 0)$) {
+        \includegraphics[height=\logoheight]{../../pictures/logo/logoUN.png}
+    };
+    
+    % Logo 6 - normandieU
+    \node[anchor=west] (logo6) at ($(logo5.east) + (\logospacing, 0)$) {
+        \includegraphics[height=\logoheight]{../../pictures/logo/normandieU.png}
+    };
+
+\end{tikzpicture}
+\end{document}
