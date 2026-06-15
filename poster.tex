@@ -8,6 +8,39 @@
 \pagestyle{empty}
 
 % ─────────────────────────────────────────────
+% Boîte avec titre et texte (sans PDF)
+% #1 = x (%)       depuis le bord gauche
+% #2 = y (%)       depuis le bord bas
+% #3 = largeur     de la boîte (% de \paperwidth)
+% #4 = scale titre (scalebox)
+% #5 = scale texte (scalebox)
+% #6 = titre de la boîte
+% #7 = texte
+% #8 = ancre
+% ─────────────────────────────────────────────
+\newcommand{\placetextbox}[8]{%
+  \pgfmathsetlength{\boxwd}{#3 * 0.01 * \paperwidth}%
+  \pgfmathsetlength{\textwd}{#3 * 0.009 * \paperwidth / #5}%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[
+      anchor=#8,
+      draw=black,
+      line width=3pt,
+      rounded corners=15pt,
+      fill=white,
+      inner sep=15pt,
+    ] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$)
+    {%
+      \parbox{\boxwd}{%
+        \centering
+        \scalebox{#4}{\textbf{#6}}\\[0.4cm]
+        \scalebox{#5}{\parbox{\textwd}{\justifying\noindent #7}}%
+      }%
+    };
+  \end{tikzpicture}%
+}
+
+% ─────────────────────────────────────────────
 % Place un PDF à la position (x%, y%) sur la page
 % #1 = x (%) depuis le bord gauche
 % #2 = y (%) depuis le bord bas
@@ -111,7 +144,13 @@
    684 Av. de l'Université, 76800 Saint-Étienne-du-Rouvray, France}
 
 %              x   y   w  stit stxt  titre
-\placePDFbox{50}{83}{40}{3}{2.5}
+
+\placetextbox{50}{78}{40}{3}{2.5}
+  {Abstract}
+  {Reinforcement learning has produced highly effective agents, but their decision-making processes often remain opaque, limiting their use in safety-critical applications. To address this, we propose a method using surrogate neural network policies to approximate agent behavior and analyze their latent space for clustering similar states. We introduce novel metrics to evaluate the stability and interpretive relevance of these clusters. Experiments on Atari environments demonstrate that this approach improves explainability. Our latent-space analysis reveals the underlying principles of complex agent behavior, advancing mechanistic interpretability in reinforcement learning.}
+  {north}
+
+\placePDFbox{50}{60}{40}{3}{2.5}
   {(2) Semantic Latent Space}
   {We observe that the distances between embeddings in the latent space are meaningful. The closer the embeddings are in the latent space, the closer they are semantically.}
   {standalones/semantic_latent_space/semantic_latent_space.pdf}{north}
