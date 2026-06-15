@@ -6,74 +6,92 @@
 \usetikzlibrary{calc}
 \pagestyle{empty}
 
+% ─────────────────────────────────────────────
 % Place un PDF à la position (x%, y%) sur la page
+% #1 = x (%) depuis le bord gauche
+% #2 = y (%) depuis le bord bas
+% #3 = fichier PDF
+% #4 = scale
+% #5 = ancre
+% ─────────────────────────────────────────────
 \newcommand{\placePDF}[5]{%
-\begin{tikzpicture}[remember picture, overlay]
-\node[anchor=#5] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$) {
-\includegraphics[scale=#4]{#3}
-        };
-\end{tikzpicture}%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=#5] at
+      ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$)
+    {\includegraphics[scale=#4]{#3}};
+  \end{tikzpicture}%
 }
 
-% Place un PDF dans une boîte avec titre
+% ─────────────────────────────────────────────
+% Place un PDF dans une boîte avec titre et texte
 % #1 = x (%) depuis le bord gauche
 % #2 = y (%) depuis le bord bas
 % #3 = largeur de la boîte (% de \paperwidth)
 % #4 = taille du texte du titre (scalebox)
 % #5 = titre de la boîte
-% #6 = fichier PDF
-% #7 = ancre
-\newcommand{\placePDFbox}[7]{%
-\pgfmathsetmacro{\boxwidth}{#3/100*\paperwidth}%
-\begin{tikzpicture}[remember picture, overlay]
-  \node[
-    anchor=#7,
-    draw=black,
-    line width=3pt,
-    rounded corners=15pt,
-    fill=white,
-    inner sep=15pt,
-    align=center,
-    text width=\boxwidth pt,
-  ] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$)
-  {
-    \scalebox{#4}{\textbf{#5}}\\[0.4cm]
-    \includegraphics[width=\boxwidth pt]{#6}
-  };
-\end{tikzpicture}%
+% #6 = texte entre le titre et la figure
+% #7 = fichier PDF
+% #8 = ancre
+% ─────────────────────────────────────────────
+\newlength{\boxwd}
+\newlength{\innerwd}
+\newcommand{\placePDFbox}[8]{%
+  % Calcul via pgfmath qui gère les grands nombres
+  \pgfmathsetlength{\boxwd}{#3 * 0.01 * \paperwidth}%
+  \pgfmathsetlength{\innerwd}{#3 * 0.009 * \paperwidth}%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[
+      anchor=#8,
+      draw=black,
+      line width=3pt,
+      rounded corners=15pt,
+      fill=white,
+      inner sep=15pt,
+    ] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$)
+    {%
+      \parbox{\boxwd}{%
+        \centering
+        \scalebox{#4}{\textbf{#5}}\\[0.4cm]
+        \parbox{\innerwd}{\centering\small #6}\\[0.4cm]
+        \includegraphics[width=\boxwd]{#7}%
+      }%
+    };
+  \end{tikzpicture}%
 }
 
+% ─────────────────────────────────────────────
 % Bulle avec titre, auteurs et organisation
 % #1 = x (%) depuis le bord gauche
 % #2 = y (%) depuis le bord bas
 % #3 = scale
-% #4 = taille de base du texte — titre = #4*1.7, auteurs = #4, organisation = #4*0.85
+% #4 = taille de base du texte
 % #5 = Titre du poster
 % #6 = Auteur 1
 % #7 = Auteur 2
 % #8 = Auteur 3
 % #9 = Organisation
+% ─────────────────────────────────────────────
 \newcommand{\posterBubble}[9]{%
-\pgfmathsetmacro{\sizetitle}{#4 * 1.7}%
-\pgfmathsetmacro{\sizeorg}{#4 * 0.85}%
-\begin{tikzpicture}[remember picture, overlay]
-  \node[
-    anchor=center,
-    draw=black,
-    line width=4pt,
-    rounded corners=30pt,
-    fill=white,
-    text=black,
-    inner sep=25pt,
-    align=center,
-    scale=#3,
-  ] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$)
-  {
-    \scalebox{\sizetitle}{\textbf{#5}}\\[1cm]
-    \scalebox{#4}{#6 \quad\textbullet\quad #7 \quad\textbullet\quad #8}\\[1cm]
-    \scalebox{\sizeorg}{\textit{#9}}
-  };
-\end{tikzpicture}%
+  \pgfmathsetmacro{\sizetitle}{#4 * 1.7}%
+  \pgfmathsetmacro{\sizeorg}{#4 * 0.85}%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[
+      anchor=center,
+      draw=black,
+      line width=4pt,
+      rounded corners=30pt,
+      fill=white,
+      text=black,
+      inner sep=25pt,
+      align=center,
+      scale=#3,
+    ] at ($(current page.south west) + (#1/100*\paperwidth, #2/100*\paperheight)$)
+    {%
+      \scalebox{\sizetitle}{\textbf{#5}}\\[1cm]
+      \scalebox{#4}{#6 \quad\textbullet\quad #7 \quad\textbullet\quad #8}\\[1cm]
+      \scalebox{\sizeorg}{\textit{#9}}%
+    };
+  \end{tikzpicture}%
 }
 
 \begin{document}
@@ -86,17 +104,49 @@
   {Maxime Alaarabiou}
   {Nicolas Delestre}
   {Laurent Vercouter}
-  {INSA Rouen Normandie, Normandie Univ, LITIS UR 4108, F-76000, 684 Av. de l'Université, 76800 Saint-Étienne-du-Rouvray, France}
+  {INSA Rouen Normandie, Normandie Univ, LITIS UR 4108, F-76000,
+   684 Av. de l'Université, 76800 Saint-Étienne-du-Rouvray, France}
 
-\begin{tikzpicture}[remember picture, overlay]
-\end{tikzpicture}
+\placePDFbox{50}{80}{40}{2}{Semantic Latent Space}
+  {The policies resulting from deep learning are represented in the form
+   of a neural network. Our objective is to study the neural network's
+   latent space in order to extract the semantics used for an
+   explainability process.}
+  {standalones/semantic_latent_space/semantic_latent_space.pdf}{north}
 
-\placePDFbox{50}{80}{40}{2}{Semantic Latent Space}{standalones/semantic_latent_space/semantic_latent_space.pdf}{north}
-\placePDFbox{15}{80}{25}{2}{Latent Space}{standalones/latent_space/latent_space.pdf}{north}
-\placePDFbox{15}{55}{25}{2}{Clustering Agent Representation}{standalones/clustering_agent_representation/clustering_agent_representation.pdf}{north}
-\placePDFbox{85}{80}{25}{2}{Clustering Universality}{standalones/clustering_universality/clustering_universality.pdf}{north}
-\placePDFbox{85}{55}{25}{2}{Evolution Clustering Universality}{standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{north}
-\placePDFbox{85}{35}{25}{2}{Semantic Granularity}{standalones/semantic_granularity/semantic_granularity.pdf}{north}
+\placePDFbox{15}{80}{25}{2}{Latent Space}
+  {The policies resulting from deep learning are represented in the form
+   of a neural network. Our objective is to study the neural network's
+   latent space in order to extract the semantics used for an
+   explainability process.}
+  {standalones/latent_space/latent_space.pdf}{north}
 
+\placePDFbox{15}{55}{25}{2}{Clustering Agent Representation}
+  {The policies resulting from deep learning are represented in the form
+   of a neural network. Our objective is to study the neural network's
+   latent space in order to extract the semantics used for an
+   explainability process.}
+  {standalones/clustering_agent_representation/clustering_agent_representation.pdf}{north}
+
+\placePDFbox{85}{80}{25}{2}{Clustering Universality}
+  {The policies resulting from deep learning are represented in the form
+   of a neural network. Our objective is to study the neural network's
+   latent space in order to extract the semantics used for an
+   explainability process.}
+  {standalones/clustering_universality/clustering_universality.pdf}{north}
+
+\placePDFbox{85}{55}{25}{2}{Evolution Clustering Universality}
+  {The policies resulting from deep learning are represented in the form
+   of a neural network. Our objective is to study the neural network's
+   latent space in order to extract the semantics used for an
+   explainability process.}
+  {standalones/evolution_clustering_universality/evolution_clustering_universality.pdf}{north}
+
+\placePDFbox{85}{35}{25}{2}{Semantic Granularity}
+  {The policies resulting from deep learning are represented in the form
+   of a neural network. Our objective is to study the neural network's
+   latent space in order to extract the semantics used for an
+   explainability process.}
+  {standalones/semantic_granularity/semantic_granularity.pdf}{north}
 
 \end{document}
